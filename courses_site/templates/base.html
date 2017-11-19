@@ -9,6 +9,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js"></script>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
      <link rel="stylesheet" type="text/css" href="/static/style.css">
     {% load static %}
 </head>
@@ -35,7 +36,7 @@
                 {% if not request.user.id is None and not request.user.is_staff %}
                     <li><a href="http://127.0.0.1:8000/favlist">My Favorites</a></li></li>
                     <li><a href="/recommend">My Recommendations</a></li></li>
-                    <li><a href="/questionnaire">Change the questionnaire</a></li></li>
+                    <li><a href="/user_account">My account</a></li>
                 {% endif %}
 
 
