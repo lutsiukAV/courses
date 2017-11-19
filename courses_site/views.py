@@ -4,6 +4,10 @@ from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
+from rest_framework.generics import ListCreateAPIView
+
+from serializers import *
+from rest_framework import viewsets, generics
 
 import random
 from .recommend import *
@@ -14,6 +18,11 @@ from .models import *
 def index(request):
     return HttpResponse(render(request, 'index.html'))
 
+def user_account(request):
+    usr = User.objects.get(id=request.user.id)
+    total_likes = Like.objects.filter(user=usr).count()
+    total_favorites = Favorite.objects.filter(user=usr).count()
+    return HttpResponse(render(request, 'user_account.html', context={'user': usr, 'likes': total_likes, 'fav': total_favorites}))
 
 def allcourses(request):
     sort = False
@@ -344,3 +353,39 @@ def regenerate(request):
     user_rec.save()
     return HttpResponse(render(request, 'recommendations.html', context={'courses_list': courses}))
 
+
+#
+
+#SERIALIZERS REST
+
+class AccountList(generics.ListCreateAPIView):
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer
+
+class AccountDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer
+
+class UserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class CourseList(generics.ListCreateAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+
+class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+
+class QuestionnaireList(generics.ListCreateAPIView):
+    queryset = Questionnaire.objects.all()
+    serializer_class = QuestionnaireSerializer
+
+class QuestionnaireDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Questionnaire.objects.all()
+    serializer_class = QuestionnaireSerializer
